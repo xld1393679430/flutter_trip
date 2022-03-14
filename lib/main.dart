@@ -18,7 +18,8 @@ class _MyAppState extends State<MyApp> {
   Future<CommonModel> fetchPost() async {
     final response = await http
         .get("http://www.devio.org/io/flutter_app/json/test_common_model.json");
-    final result = json.decode(response.body);
+    Utf8Decoder utf8Decoder = Utf8Decoder(); // 中文字符正常显示
+    final result = json.decode(utf8Decoder.convert(response.bodyBytes));
     return CommonModel.fromJson(result);
   }
 
@@ -27,7 +28,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Http"),
+          title: Text("Http & Future"),
         ),
         body: Column(
           children: [
@@ -46,6 +47,40 @@ class _MyAppState extends State<MyApp> {
               ),
             ),
             Text(_showResult),
+            Text('-----------------'),
+            FutureBuilder<CommonModel>(
+                future: fetchPost(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<CommonModel> snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                      return Text("None");
+                    case ConnectionState.waiting:
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    case ConnectionState.active:
+                      return Text("Active");
+                    case ConnectionState.done:
+                      if (snapshot.hasError) {
+                        return Text("${snapshot.error}",
+                            style: TextStyle(color: Colors.red));
+                      } else {
+                        return Column(
+                          children: [
+                            Text("icon: ${snapshot.data.icon}"),
+                            Text("title: ${snapshot.data.title}"),
+                            Text("url: ${snapshot.data.url}"),
+                            Text(
+                                "statusBarColor: ${snapshot.data.statusBarColor}"),
+                            Text("hideAppBar: ${snapshot.data.hideAppBar}"),
+                          ],
+                        );
+                      }
+                  }
+
+                  return null;
+                })
           ],
         ),
       ),
