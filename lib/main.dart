@@ -2,6 +2,7 @@ import "dart:convert";
 
 import 'package:flutter/material.dart';
 import "package:http/http.dart" as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,6 +15,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _showResult = "";
+  String countString = "";
+  String localCount = "";
 
   Future<CommonModel> fetchPost() async {
     final response = await http
@@ -21,6 +24,22 @@ class _MyAppState extends State<MyApp> {
     Utf8Decoder utf8Decoder = Utf8Decoder(); // 中文字符正常显示
     final result = json.decode(utf8Decoder.convert(response.bodyBytes));
     return CommonModel.fromJson(result);
+  }
+
+  _incrementCounter() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      countString = countString + " 1";
+    });
+    int counter = (sharedPreferences.getInt("counter") ?? 0) + 1;
+    await sharedPreferences.setInt("counter", counter);
+  }
+
+  _getCounter() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      localCount = sharedPreferences.getInt("counter").toString();
+    });
   }
 
   @override
@@ -80,7 +99,23 @@ class _MyAppState extends State<MyApp> {
                   }
 
                   return null;
-                })
+                }),
+            RaisedButton(
+              onPressed: _incrementCounter,
+              child: Text("Increment Counter"),
+            ),
+            RaisedButton(
+              onPressed: _getCounter,
+              child: Text("Get Counter"),
+            ),
+            Text(
+              "当前的countString：$countString",
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              "当前的localCount：$localCount",
+              style: TextStyle(fontSize: 20),
+            )
           ],
         ),
       ),
