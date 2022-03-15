@@ -27,7 +27,7 @@ class _DemoGridViewState extends State<DemoGridView> {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
-            title: Text("列表展开与收起"),
+            title: Text("网格布局"),
           ),
           body: GridView.count(
             crossAxisCount: 3,
