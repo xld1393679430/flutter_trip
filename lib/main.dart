@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_trip/demo/DemoListView.dart';
+import 'package:flutter_trip/demo/DemoGridView.dart';
 
 void main() {
-  runApp(DemoListView());
+  runApp(DemoGridView());
 }
