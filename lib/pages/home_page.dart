@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_trip/dao/home_dao.dart';
+import 'package:flutter_trip/model/common_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
-import 'package:flutter_trip/widget/grid_nav.dart';
+import 'package:flutter_trip/widget/local_nav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 
@@ -21,20 +20,15 @@ class _HomePageState extends State<HomePage> {
     'https://dss3.baidu.com/-rVXeDTa2gU2pMbgoY3K/it/u=118881608,3318206437&fm=202&src=801',
     'https://fc3tn.baidu.com/it/u=1680718296,1138241536&fm=202&src=801'
   ];
-
-  String resultString = "";
+  List<CommonModel> localNavList = [];
 
   loadData() async {
     try {
       HomeModel model = await HomeDao.fetch();
       setState(() {
-        resultString = json.encode(model.config);
+        localNavList = model.localNavList;
       });
-    } catch (e) {
-      setState(() {
-        resultString = "Error: " + e.toString();
-      });
-    }
+    } catch (e) {}
   }
 
   @override
@@ -75,12 +69,9 @@ class _HomePageState extends State<HomePage> {
                       pagination: SwiperPagination(),
                     ),
                   ),
-                  GridNav(gridNavModel: null),
+                  LocalNav(localNavList: localNavList),
                   Container(
-                    height: 800,
-                    child: ListTile(
-                      title: Text(resultString),
-                    ),
+                    child: Text("result2"),
                   )
                 ],
               ),
