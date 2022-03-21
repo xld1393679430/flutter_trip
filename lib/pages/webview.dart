@@ -43,14 +43,14 @@ class _WebViewState extends State<WebView> {
         webViewReference.onStateChanged.listen((WebViewStateChanged state) {
       switch (state.type) {
         case WebViewState.startLoad:
-          if (_isToMain(state.url) && !exiting) {
-            if (widget.backForbid) {
-              webViewReference.launch(widget.url);
-            } else {
-              Navigator.pop(context);
-              exiting = true;
-            }
-          }
+          // if (_isToMain(state.url) && !exiting) {
+          //   if (widget.backForbid) {
+          //     webViewReference.launch(widget.url);
+          //   } else {
+          //     Navigator.pop(context);
+          //     exiting = true;
+          //   }
+          // }
           break;
         default:
           break;
@@ -103,11 +103,11 @@ class _WebViewState extends State<WebView> {
 
   @override
   void dispose() {
-    super.dispose();
     _urlChanged.cancel();
     _stateChanged.cancel();
 
     webViewReference.dispose();
+    super.dispose();
   }
 
   _appBar(Color backgroundColor, Color backButtonColor) {
@@ -118,12 +118,16 @@ class _WebViewState extends State<WebView> {
       );
     }
     return Container(
+      color: backgroundColor,
+      padding: EdgeInsets.fromLTRB(0, 40, 0, 10),
       child: FractionallySizedBox(
         widthFactor: 1,
         child: Stack(
           children: [
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+              },
               child: Container(
                 margin: EdgeInsets.only(left: 10),
                 child: Icon(
