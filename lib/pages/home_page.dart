@@ -41,56 +41,59 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Color(0xfff2f2f2),
         body: Stack(
-      children: [
-        MediaQuery.removePadding(
-            removeTop: true,
-            context: context,
-            child: NotificationListener(
-              onNotification: (scrollNotification) {
-                if (scrollNotification is ScrollUpdateNotification &&
-                    scrollNotification.depth == 0) {
-                  // 滚动且是列表滚动的时候
-                  _handleScroll(scrollNotification.metrics.pixels);
-                }
-                return false;
-              },
-              child: ListView(
-                children: [
-                  Container(
-                    height: 160,
-                    child: Swiper(
-                      itemCount: _imageUrls.length,
-                      autoplay: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Image.network(_imageUrls[index],
-                            fit: BoxFit.fill);
-                      },
-                      pagination: SwiperPagination(),
-                    ),
+          children: [
+            MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: NotificationListener(
+                  onNotification: (scrollNotification) {
+                    if (scrollNotification is ScrollUpdateNotification &&
+                        scrollNotification.depth == 0) {
+                      // 滚动且是列表滚动的时候
+                      _handleScroll(scrollNotification.metrics.pixels);
+                    }
+                    return false;
+                  },
+                  child: ListView(
+                    children: [
+                      Container(
+                        height: 160,
+                        child: Swiper(
+                          itemCount: _imageUrls.length,
+                          autoplay: true,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Image.network(_imageUrls[index],
+                                fit: BoxFit.fill);
+                          },
+                          pagination: SwiperPagination(),
+                        ),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                          child: LocalNav(localNavList: localNavList)),
+                      Container(
+                        child: Text("result2"),
+                      )
+                    ],
                   ),
-                  LocalNav(localNavList: localNavList),
-                  Container(
-                    child: Text("result2"),
-                  )
-                ],
+                )),
+            Opacity(
+              opacity: appBarOpacity,
+              child: Container(
+                height: 80,
+                decoration: BoxDecoration(color: Colors.white),
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: Text("首页"),
+                  ),
+                ),
               ),
-            )),
-        Opacity(
-          opacity: appBarOpacity,
-          child: Container(
-            height: 80,
-            decoration: BoxDecoration(color: Colors.white),
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: Text("首页"),
-              ),
-            ),
-          ),
-        )
-      ],
-    ));
+            )
+          ],
+        ));
   }
 
   void _handleScroll(double offset) {
