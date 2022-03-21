@@ -41,7 +41,6 @@ class _WebViewState extends State<WebView> {
 
     _stateChanged =
         webViewReference.onStateChanged.listen((WebViewStateChanged state) {
-
       switch (state.type) {
         case WebViewState.startLoad:
           if (_isToMain(state.url) && !exiting) {
