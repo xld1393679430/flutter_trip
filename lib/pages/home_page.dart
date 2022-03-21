@@ -6,6 +6,7 @@ import 'package:flutter_trip/model/grid_nav_model.dart';
 import 'package:flutter_trip/model/home_model.dart';
 import 'package:flutter_trip/widget/grid_nav.dart';
 import 'package:flutter_trip/widget/local_nav.dart';
+import 'package:flutter_trip/widget/sub_nav.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 
@@ -23,14 +24,16 @@ class _HomePageState extends State<HomePage> {
     'https://fc3tn.baidu.com/it/u=1680718296,1138241536&fm=202&src=801'
   ];
   List<CommonModel> localNavList = [];
-  GridNavModel gridNav;
+  GridNavModel gridNavLit;
+  List<CommonModel> subNavList = [];
 
   loadData() async {
     try {
       HomeModel model = await HomeDao.fetch();
       setState(() {
         localNavList = model.localNavList;
-        gridNav = model.gridNav;
+        gridNavLit = model.gridNav;
+        subNavList = model.subNavList;
       });
     } catch (e) {}
   }
@@ -80,7 +83,12 @@ class _HomePageState extends State<HomePage> {
                       Padding(
                           padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
                           child: GridNav(
-                            gridNavModel: gridNav,
+                            gridNavModel: gridNavLit,
+                          )),
+                      Padding(
+                          padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                          child: SubNav(
+                            subNavList: subNavList,
                           )),
                       Container(
                         child: Text("result2"),
