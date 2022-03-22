@@ -10,6 +10,7 @@ import 'package:flutter_trip/widget/loading_container.dart';
 import 'package:flutter_trip/widget/local_nav.dart';
 import 'package:flutter_trip/widget/sales_box.dart';
 import 'package:flutter_trip/widget/sub_nav.dart';
+import 'package:toast/toast.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
 
@@ -32,7 +33,7 @@ class _HomePageState extends State<HomePage> {
   SalesBoxModel salesBox;
   bool _loading = true;
 
-  loadData() async {
+  Future<Null> _handleRefresh({isRefresh = true}) async {
     try {
       HomeModel model = await HomeDao.fetch();
       setState(() {
@@ -47,13 +48,17 @@ class _HomePageState extends State<HomePage> {
         _loading = false;
       });
     }
+    if (isRefresh) {
+      Toast.show("刷新完成", context);
+    }
+    return null;
   }
 
   @override
   void initState() {
     super.initState();
 
-    loadData();
+    _handleRefresh(isRefresh: false);
   }
 
   @override
@@ -67,51 +72,54 @@ class _HomePageState extends State<HomePage> {
               MediaQuery.removePadding(
                   removeTop: true,
                   context: context,
-                  child: NotificationListener(
-                    onNotification: (scrollNotification) {
-                      if (scrollNotification is ScrollUpdateNotification &&
-                          scrollNotification.depth == 0) {
-                        // 滚动且是列表滚动的时候
-                        _handleScroll(scrollNotification.metrics.pixels);
-                      }
-                      return false;
-                    },
-                    child: ListView(
-                      children: [
-                        Container(
-                          height: 160,
-                          child: Swiper(
-                            itemCount: _imageUrls.length,
-                            autoplay: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Image.network(_imageUrls[index],
-                                  fit: BoxFit.fill);
-                            },
-                            pagination: SwiperPagination(),
+                  child: RefreshIndicator(
+                    onRefresh: _handleRefresh,
+                    child: NotificationListener(
+                      onNotification: (scrollNotification) {
+                        if (scrollNotification is ScrollUpdateNotification &&
+                            scrollNotification.depth == 0) {
+                          // 滚动且是列表滚动的时候
+                          _handleScroll(scrollNotification.metrics.pixels);
+                        }
+                        return false;
+                      },
+                      child: ListView(
+                        children: [
+                          Container(
+                            height: 160,
+                            child: Swiper(
+                              itemCount: _imageUrls.length,
+                              autoplay: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Image.network(_imageUrls[index],
+                                    fit: BoxFit.fill);
+                              },
+                              pagination: SwiperPagination(),
+                            ),
                           ),
-                        ),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
-                            child: LocalNav(localNavList: localNavList)),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
-                            child: GridNav(
-                              gridNavModel: gridNavLit,
-                            )),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
-                            child: SubNav(
-                              subNavList: subNavList,
-                            )),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
-                            child: SalesBox(
-                              salesBox: salesBox,
-                            )),
-                        Container(
-                          child: Text("result2"),
-                        )
-                      ],
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                              child: LocalNav(localNavList: localNavList)),
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                              child: GridNav(
+                                gridNavModel: gridNavLit,
+                              )),
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                              child: SubNav(
+                                subNavList: subNavList,
+                              )),
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(7, 4, 7, 4),
+                              child: SalesBox(
+                                salesBox: salesBox,
+                              )),
+                          Container(
+                            child: Text("result2"),
+                          )
+                        ],
+                      ),
                     ),
                   )),
               Opacity(
