@@ -24,7 +24,7 @@ class SalesBox extends StatelessWidget {
     items.add(_doubleItem(
         context, salesBox.bidCard1, salesBox.bidCard2, true, false));
     items.add(_doubleItem(
-        context, salesBox.smallCard1, salesBox.smallCard2, true, false));
+        context, salesBox.smallCard1, salesBox.smallCard2, false, false));
     items.add(_doubleItem(
         context, salesBox.smallCard3, salesBox.smallCard4, false, true));
 
@@ -33,8 +33,57 @@ class SalesBox extends StatelessWidget {
         Container(
           height: 44,
           margin: EdgeInsets.only(left: 10),
-          child: Container(),
-        )
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(width: 1, color: Color(0xfff2f2f2)))),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.network(
+                salesBox.icon,
+                height: 15,
+                fit: BoxFit.fill,
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 1, 8, 1),
+                margin: EdgeInsets.only(right: 7),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    gradient: LinearGradient(
+                        colors: [Color(0xffff4e63), Color(0xffff6cc9)],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight)),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => WebView(
+                                  url: salesBox.moreUrl,
+                                  title: "更多活动",
+                                )));
+                  },
+                  child: Text(
+                    "获取更多福利 >",
+                    style: TextStyle(fontSize: 12, color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: items.sublist(0, 1),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: items.sublist(1, 2),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: items.sublist(2, 3),
+        ),
       ],
     );
   }
@@ -44,42 +93,42 @@ class SalesBox extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        _item(context, leftCard, true, last),
-        _item(context, rightCard, false, last),
+        _item(context, leftCard, big, true, last),
+        _item(context, rightCard, big, false, last),
       ],
     );
   }
 
-  Widget _item(BuildContext context, CommonModel model, bool left, bool last) {
-    return Expanded(
-        flex: 1,
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => WebView(
-                          url: model.url,
-                          statusBarColor: model.statusBarColor,
-                          hideAppBar: model.hideAppBar,
-                        )));
-          },
-          child: Column(
-            children: [
-              Image.network(
+  Widget _item(
+      BuildContext context, CommonModel model, bool big, bool left, bool last) {
+    BorderSide borderSide = BorderSide(width: 0.8, color: Color(0xfff2f2f2));
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => WebView(
+                      url: model.url,
+                      statusBarColor: model.statusBarColor,
+                      hideAppBar: model.hideAppBar,
+                    )));
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border(
+          right: left ? borderSide : BorderSide.none,
+          bottom: last ? BorderSide.none : borderSide,
+        )),
+        child: model?.icon != null
+            ? Image.network(
                 model.icon,
-                width: 18,
-                height: 18,
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 3),
-                child: Text(
-                  model.title,
-                  style: TextStyle(fontSize: 14),
-                ),
+                fit: BoxFit.fill,
+                width: MediaQuery.of(context).size.width / 2 - 10,
+                height: big ? 129 : 80,
               )
-            ],
-          ),
-        ));
+            : null,
+      ),
+    );
   }
 }
