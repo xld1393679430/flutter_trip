@@ -82,7 +82,43 @@ class _SearchBarState extends State<SearchBar> {
     );
   }
 
-  _genHomeSearch() {}
+  _genHomeSearch() {
+    return Container(
+      child: Row(
+        children: [
+          _wrapTap(
+              Container(
+                padding: EdgeInsets.fromLTRB(6, 5, 5, 5),
+                child: Row(
+                  children: [
+                    Text(
+                      "上海",
+                      style: TextStyle(color: _homeFontColor(), fontSize: 14),
+                    ),
+                    Icon(
+                      Icons.expand_more,
+                      color: _homeFontColor(),
+                      size: 22,
+                    )
+                  ],
+                ),
+              ),
+              widget.leftButtonClick),
+          Expanded(flex: 1, child: _inputBox()),
+          _wrapTap(
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                child: Icon(
+                  Icons.comment,
+                  color: _homeFontColor(),
+                  size: 26,
+                ),
+              ),
+              widget.rightButtonClick),
+        ],
+      ),
+    );
+  }
 
   _wrapTap(Widget child, void Function() callback) {
     return GestureDetector(
@@ -183,5 +219,11 @@ class _SearchBarState extends State<SearchBar> {
     if (widget.onChanged != null) {
       widget.onChanged(text);
     }
+  }
+
+  _homeFontColor() {
+    return widget.searchBarType == SearchBarType.homeLight
+        ? Colors.black54
+        : Colors.white;
   }
 }

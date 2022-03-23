@@ -10,10 +10,12 @@ import 'package:flutter_trip/widget/grid_nav.dart';
 import 'package:flutter_trip/widget/loading_container.dart';
 import 'package:flutter_trip/widget/local_nav.dart';
 import 'package:flutter_trip/widget/sales_box.dart';
+import 'package:flutter_trip/widget/search_bar.dart';
 import 'package:flutter_trip/widget/sub_nav.dart';
 import 'package:toast/toast.dart';
 
 const APPBAR_SCROLL_OFFSET = 100;
+const SEARCH_BAR_DEFAULT_TEXT = '网红打卡 景点 酒店 美食';
 
 class HomePage extends StatefulWidget {
   @override
@@ -21,14 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final PageController _controller = PageController(initialPage: 0);
   double appBarOpacity = 0;
-  List _imageUrls = [
-    'https://fc6tn.baidu.com/it/u=987527054,2646720927&fm=202&src=801',
-    'https://dss3.baidu.com/-rVXeDTa2gU2pMbgoY3K/it/u=118881608,3318206437&fm=202&src=801',
-    'https://fc3tn.baidu.com/it/u=1680718296,1138241536&fm=202&src=801'
-  ];
-
   List<CommonModel> bannerList = [];
   List<CommonModel> localNavList = [];
   GridNavModel gridNavLit;
@@ -145,6 +140,7 @@ class _HomePageState extends State<HomePage> {
               salesBox: salesBox,
             )),
         Container(
+          height: 200,
           child: Text("result2"),
         )
       ],
@@ -152,18 +148,36 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget get _appBar {
-    return Opacity(
-      opacity: appBarOpacity,
-      child: Container(
-        height: 80,
-        decoration: BoxDecoration(color: Colors.white),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.only(top: 20),
-            child: Text("首页"),
-          ),
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Color(0x66000000), Colors.transparent],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter)),
+          child: Container(
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+              height: 80,
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(
+                      (appBarOpacity * 255).toInt(), 255, 255, 255)),
+              child: SearchBar(
+                searchBarType: appBarOpacity > 0.2
+                    ? SearchBarType.homeLight
+                    : SearchBarType.home,
+                inputBoxClick: _jumpToSearch,
+                speakClick: _jumpToSpeak,
+                defaultText: SEARCH_BAR_DEFAULT_TEXT,
+                leftButtonClick: () {},
+              )),
         ),
-      ),
+        Container(
+          height: appBarOpacity > 0.2 ? 0.5 : 0,
+          decoration: BoxDecoration(
+              boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 0.5)]),
+        )
+      ],
     );
   }
 
@@ -178,4 +192,8 @@ class _HomePageState extends State<HomePage> {
       appBarOpacity = opacity;
     });
   }
+
+  _jumpToSearch() {}
+
+  _jumpToSpeak() {}
 }
