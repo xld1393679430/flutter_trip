@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trip/dao/search_dao.dart';
 import 'package:flutter_trip/model/search_model.dart';
+import 'package:flutter_trip/pages/webview.dart';
 import 'package:flutter_trip/widget/search_bar.dart';
 
 const URL =
@@ -104,6 +105,39 @@ class _SearchPageState extends State<SearchPage> {
       return null;
     }
     SearchItem item = searchModel?.data[position];
-    return Text(item.districtname);
+
+    print("---------${item.price}--------");
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => WebView(url: item.url, title: '详情')));
+      },
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(width: 0.3, color: Colors.grey)),
+        ),
+        child: Row(
+          children: [
+            Column(
+              children: [
+                Container(
+                  width: 300,
+                  child: Text(
+                      '${item.word} ${item.districtname ?? ''} ${item.districtname ?? ''}'),
+                ),
+                Container(
+                  width: 300,
+                  child: Text('${item.price ?? ''} ${item.type ?? ''}'),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
