@@ -40,65 +40,30 @@ class _TabNavigatorState extends State<TabNavigator> {
           },
           type: BottomNavigationBarType.fixed,
           items: [
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home,
-                  color: _defaultColor,
-                ),
-                activeIcon: Icon(
-                  Icons.home,
-                  color: _activeColor,
-                ),
-                title: Text(
-                  "首页",
-                  style: TextStyle(
-                      color: _currentIndex == 0 ? _activeColor : _defaultColor),
-                )),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.search,
-                  color: _defaultColor,
-                ),
-                activeIcon: Icon(
-                  Icons.search,
-                  color: _activeColor,
-                ),
-                title: Text(
-                  "搜素",
-                  style: TextStyle(
-                      color: _currentIndex == 1 ? _activeColor : _defaultColor),
-                )),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.camera_alt,
-                  color: _defaultColor,
-                ),
-                activeIcon: Icon(
-                  Icons.camera_alt,
-                  color: _activeColor,
-                ),
-                title: Text(
-                  "旅拍",
-                  style: TextStyle(
-                      color: _currentIndex == 2 ? _activeColor : _defaultColor),
-                )),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.account_circle,
-                  color: _defaultColor,
-                ),
-                activeIcon: Icon(
-                  Icons.account_circle,
-                  color: _activeColor,
-                ),
-                title: Text(
-                  "我的",
-                  style: TextStyle(
-                      color: _currentIndex == 3 ? _activeColor : _defaultColor),
-                )),
+            _renderNavigationBarItem(Icons.home, "首页", 0),
+            _renderNavigationBarItem(Icons.search, "搜素", 1),
+            _renderNavigationBarItem(Icons.camera_alt, "旅拍", 2),
+            _renderNavigationBarItem(Icons.account_circle, "我的", 3),
           ],
         ),
       ),
     );
+  }
+
+  _renderNavigationBarItem(icon, title, index) {
+    return BottomNavigationBarItem(
+        icon: Icon(
+          icon,
+          color: _defaultColor,
+        ),
+        activeIcon: Icon(
+          icon,
+          color: _activeColor,
+        ),
+        title: Text(
+          title,
+          style: TextStyle(
+              color: _currentIndex == index ? _activeColor : _defaultColor),
+        ));
   }
 }
