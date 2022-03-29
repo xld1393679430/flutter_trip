@@ -7,6 +7,22 @@ import 'package:flutter_trip/widget/search_bar.dart';
 const URL =
     "https://m.ctrip.com/restapi/h5api/searchapp/search?source=mobileweb&action=autocomplete&contentType=json&keyword=";
 
+const TYPES = [
+  "channelgroup",
+  "gs",
+  "plane",
+  "train",
+  "cruise",
+  "district",
+  "food",
+  "hotel",
+  "huodong",
+  "shop",
+  "sight",
+  "ticket",
+  "travelgroup",
+];
+
 class SearchPage extends StatefulWidget {
   final bool hideLeft;
   final String searchUrl;
@@ -122,16 +138,21 @@ class _SearchPageState extends State<SearchPage> {
         ),
         child: Row(
           children: [
+            Container(
+              margin: EdgeInsets.all(1),
+              child: Image(
+                width: 26,
+                height: 26,
+                image: AssetImage(_typeImage(item.type)),
+              ),
+            ),
             Column(
               children: [
+                Container(width: 300, child: _title(item)),
                 Container(
                   width: 300,
-                  child: Text(
-                      '${item.word} ${item.districtname ?? ''} ${item.districtname ?? ''}'),
-                ),
-                Container(
-                  width: 300,
-                  child: Text('${item.price ?? ''} ${item.type ?? ''}'),
+                  margin: EdgeInsets.only(top: 5),
+                  child: _subTitle(item),
                 )
               ],
             )
@@ -139,5 +160,73 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
     );
+  }
+
+  String _typeImage(String type) {
+    if (type == null) {
+      return "images/type_travelgroup.png";
+    }
+    String path = "travelgroup";
+    for (final val in TYPES) {
+      if (type.contains(val)) {
+        path = val;
+        break;
+      }
+    }
+    return "images/type_$path.png";
+  }
+
+  _title(SearchItem item) {
+    if (item == null) {
+      return null;
+    }
+    List<TextSpan> spans = [];
+    spans.addAll(_keywordTextSpans(item.word, searchModel.keyword));
+    spans.add(TextSpan(
+        text: ' ${item.districtname ?? ''} ${item.zonename ?? ''} ',
+        style: TextStyle(fontSize: 15, color: Colors.grey)));
+
+    return RichText(text: TextSpan(children: spans));
+  }
+
+  _subTitle(SearchItem item) {
+    return RichText(
+        text: TextSpan(children: [
+      TextSpan(
+        text: item.price ?? '实时计价',
+        style: TextStyle(
+          fontSize: 16,
+          color: Colors.orange,
+        ),
+      ),
+      TextSpan(
+        text: ' ${item.star ?? ''}',
+        style: TextStyle(
+          fontSize: 12,
+          color: Colors.grey,
+        ),
+      ),
+    ]));
+  }
+
+  _keywordTextSpans(String word, String keyword) {
+    List<TextSpan> spans = [];
+    if (word == null || word.length == 0) {
+      return spans;
+    }
+    List<String> arr = word.split(keyword);
+    for (int i = 0; i < arr.length; i++) {
+      if ((i + 1) % 2 == 0) {
+        spans.add(TextSpan(
+            text: keyword,
+            style: TextStyle(fontSize: 16, color: Colors.orange)));
+      }
+      String val = arr[i];
+      if (val != null && val.length > 0) {
+        spans.add(TextSpan(
+            text: val, style: TextStyle(fontSize: 16, color: Colors.black87)));
+      }
+    }
+    return spans;
   }
 }
