@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trip/dao/search_dao.dart';
 import 'package:flutter_trip/model/search_model.dart';
+import 'package:flutter_trip/pages/speak_page.dart';
 import 'package:flutter_trip/pages/webview.dart';
 import 'package:flutter_trip/widget/search_bar.dart';
 
@@ -108,6 +109,7 @@ class _SearchPageState extends State<SearchPage> {
               leftButtonClick: () {
                 Navigator.pop(context);
               },
+              speakClick: _jumpToSpeak,
               onChanged: _onTextChanged,
             ),
           ),
@@ -228,5 +230,11 @@ class _SearchPageState extends State<SearchPage> {
       }
     }
     return spans;
+  }
+
+  _jumpToSpeak() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return SpeakPage();
+    }));
   }
 }
