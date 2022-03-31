@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trip/pages/search_page.dart';
+import 'package:flutter_trip/plugin/asr_manager.dart';
 
 class SpeakPage extends StatefulWidget {
   @override
@@ -139,11 +141,37 @@ class _SpeakPageState extends State<SpeakPage>
 
   _speakStart() {
     controller.forward();
+    setState(() {
+      speakTips = '-- 识别中--';
+    });
+    AsrManager.start().then((value) {
+      if (value != null && value.length > 0) {
+        setState(() {
+          speakResult = value;
+        });
+        // 记住先关闭当前页面再跳转
+        Navigator.pop(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SearchPage(
+                      keyword: speakResult,
+                    )));
+
+        print('1---------' + value);
+      }
+    }).catchError((e) {
+      print('2---------' + e.toString());
+    });
   }
 
   _speakStop() {
+    setState(() {
+      speakTips = "长按说话";
+    });
     controller.reset();
     controller.stop();
+    AsrManager.stop();
   }
 }
 

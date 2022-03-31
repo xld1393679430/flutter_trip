@@ -2,6 +2,17 @@ plugins {
     id 'com.android.library'
 }
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterRoot = localProperties.getProperty('flutter.sdk')
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
 android {
     compileSdkVersion 28
 
@@ -23,6 +34,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+flutter {
+    source '../..'
 }
 
 dependencies {
