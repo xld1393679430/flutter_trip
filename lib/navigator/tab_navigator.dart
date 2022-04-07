@@ -4,16 +4,17 @@ import 'package:flutter_trip/pages/my_page.dart';
 import 'package:flutter_trip/pages/search_page.dart';
 import 'package:flutter_trip/pages/travel_page.dart';
 
+var _currentIndex = 2;
+
 class TabNavigator extends StatefulWidget {
   @override
   _TabNavigatorState createState() => _TabNavigatorState();
 }
 
 class _TabNavigatorState extends State<TabNavigator> {
-  final PageController _controller = PageController(initialPage: 0);
+  final PageController _controller = PageController(initialPage: _currentIndex);
   final _defaultColor = Colors.grey;
   final _activeColor = Colors.blue;
-  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,7 @@ class _TabNavigatorState extends State<TabNavigator> {
             TravelPage(),
             MyPage()
           ],
+          physics: NeverScrollableScrollPhysics(), // 禁止PageView左右滑动
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,

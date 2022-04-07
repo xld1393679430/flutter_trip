@@ -16,6 +16,6 @@ class SearchDao {
       model.keyword = text;
       return model;
     }
-    return null;
+    throw Exception('SearchDao error');
   }
 }
