@@ -113,10 +113,7 @@ class _WebViewState extends State<WebView> {
   _appBar(Color backgroundColor, Color backButtonColor) {
     if (widget.hideAppBar ?? false) {
       return Container(
-        decoration: BoxDecoration(
-            color: widget.statusBarColor != null
-                ? Color(int.parse('0xff' + widget.statusBarColor))
-                : backButtonColor),
+        color: backgroundColor,
         height: 30,
       );
     }

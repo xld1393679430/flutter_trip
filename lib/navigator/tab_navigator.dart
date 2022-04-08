@@ -4,7 +4,7 @@ import 'package:flutter_trip/pages/my_page.dart';
 import 'package:flutter_trip/pages/search_page.dart';
 import 'package:flutter_trip/pages/travel_page.dart';
 
-var _currentIndex = 3;
+var _currentIndex = 0;
 
 class TabNavigator extends StatefulWidget {
   @override
