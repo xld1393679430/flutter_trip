@@ -3,6 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_trip/dao/travel_dao.dart';
 import 'package:flutter_trip/model/travel_model.dart';
 import 'package:flutter_trip/pages/webview.dart';
+import 'package:flutter_trip/util/navigator_util.dart';
 import 'package:flutter_trip/widget/loading_container.dart';
 
 const _TRAVEL_URL =
@@ -125,11 +126,7 @@ class _TravelItem extends StatelessWidget {
       onTap: () {
         List<Urls> urls = item.article.urls;
         if (urls != null && urls.length > 0) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      WebView(url: urls[0].h5Url, title: '详情')));
+          NavigatorUtil.push(context, WebView(url: urls[0].h5Url, title: '详情'));
         }
       },
       child: Card(

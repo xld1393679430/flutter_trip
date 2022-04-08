@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trip/pages/search_page.dart';
 import 'package:flutter_trip/plugin/asr_manager.dart';
+import 'package:flutter_trip/util/navigator_util.dart';
 
 class SpeakPage extends StatefulWidget {
   @override
@@ -151,12 +152,11 @@ class _SpeakPageState extends State<SpeakPage>
         });
         // 记住先关闭当前页面再跳转
         Navigator.pop(context);
-        Navigator.push(
+        NavigatorUtil.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => SearchPage(
-                      keyword: speakResult,
-                    )));
+            SearchPage(
+              keyword: speakResult,
+            ));
 
         print('1---------' + value);
       }
