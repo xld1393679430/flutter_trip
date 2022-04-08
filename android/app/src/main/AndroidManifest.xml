@@ -47,5 +47,8 @@
         <!-- <meta-data-->
         <!--    android:name="flutterEmbedding"-->
         <!--    android:value="2" />-->
+
+        <!-- 安卓适配全面屏 -->
+        <meta-data android:name="android:max_aspect" android:value="2.3" />
     </application>
 </manifest>
