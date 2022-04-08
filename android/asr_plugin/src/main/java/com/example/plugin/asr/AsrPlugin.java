@@ -34,20 +34,20 @@ public class AsrPlugin implements MethodChannel.MethodCallHandler {
     @Override
     public void onMethodCall(MethodCall methodCall, MethodChannel.Result result) {
         initPermission();
-        switch (methodCall.method) {
-            case "start":
-                resultStateful = ResultStateful.of(result);
-                start(methodCall, resultStateful);
-                break;
-            case "stop":
-                stop(methodCall,result);
-                break;
-            case "cancel":
-                cancel(methodCall,result);
-                break;
-            default:
-                result.notImplemented();
-        }
+//        switch (methodCall.method) {
+//            case "start":
+//                resultStateful = ResultStateful.of(result);
+//                start(methodCall, resultStateful);
+//                break;
+//            case "stop":
+//                stop(methodCall,result);
+//                break;
+//            case "cancel":
+//                cancel(methodCall,result);
+//                break;
+//            default:
+//                result.notImplemented();
+//        }
     }
 
     private void start(MethodCall call, ResultStateful result) {
@@ -57,7 +57,7 @@ public class AsrPlugin implements MethodChannel.MethodCallHandler {
             return;
         }
         if (getAsrManager() != null) {
-            getAsrManager().start(call.arguments instanceof Map ? (Map) call.arguments : null);
+//            getAsrManager().start(call.arguments instanceof Map ? (Map) call.arguments : null);
         } else {
             Log.e(TAG, "Ignored start, current getAsrManager is null.");
             result.error("Ignored start, current getAsrManager is null.", null, null);
@@ -66,13 +66,13 @@ public class AsrPlugin implements MethodChannel.MethodCallHandler {
 
     private void stop(MethodCall call, MethodChannel.Result result) {
         if (asrManager != null) {
-            asrManager.stop();
+//            asrManager.stop();
         }
     }
 
     private void cancel(MethodCall call, MethodChannel.Result result) {
         if (asrManager != null) {
-            asrManager.cancel();
+//            asrManager.cancel();
         }
     }
 
@@ -80,7 +80,7 @@ public class AsrPlugin implements MethodChannel.MethodCallHandler {
     private AsrManager getAsrManager() {
         if (asrManager == null) {
             if (activity != null && !activity.isFinishing()) {
-                asrManager = new AsrManager(activity, onAsrListener);
+//                asrManager = new AsrManager(activity, onAsrListener);
             }
         }
         return asrManager;
@@ -111,79 +111,79 @@ public class AsrPlugin implements MethodChannel.MethodCallHandler {
         }
 
     }
-    private OnAsrListener onAsrListener = new OnAsrListener() {
-        @Override
-        public void onAsrReady() {
-
-        }
-
-        @Override
-        public void onAsrBegin() {
-
-        }
-
-        @Override
-        public void onAsrEnd() {
-
-        }
-
-        @Override
-        public void onAsrPartialResult(String[] results, RecogResult recogResult) {
-
-        }
-
-        @Override
-        public void onAsrOnlineNluResult(String nluResult) {
-
-        }
-
-        @Override
-        public void onAsrFinalResult(String[] results, RecogResult recogResult) {
-            if (resultStateful != null) {
-                resultStateful.success(results[0]);
-            }
-        }
-
-        @Override
-        public void onAsrFinish(RecogResult recogResult) {
-
-        }
-
-        @Override
-        public void onAsrFinishError(int errorCode, int subErrorCode, String descMessage, RecogResult recogResult) {
-            if (resultStateful != null) {
-                resultStateful.error(descMessage, null, null);
-            }
-        }
-
-        @Override
-        public void onAsrLongFinish() {
-
-        }
-
-        @Override
-        public void onAsrVolume(int volumePercent, int volume) {
-
-        }
-
-        @Override
-        public void onAsrAudio(byte[] data, int offset, int length) {
-
-        }
-
-        @Override
-        public void onAsrExit() {
-
-        }
-
-        @Override
-        public void onOfflineLoaded() {
-
-        }
-
-        @Override
-        public void onOfflineUnLoaded() {
-
-        }
-    };
+//    private OnAsrListener onAsrListener = new OnAsrListener() {
+//        @Override
+//        public void onAsrReady() {
+//
+//        }
+//
+//        @Override
+//        public void onAsrBegin() {
+//
+//        }
+//
+//        @Override
+//        public void onAsrEnd() {
+//
+//        }
+//
+//        @Override
+//        public void onAsrPartialResult(String[] results, RecogResult recogResult) {
+//
+//        }
+//
+//        @Override
+//        public void onAsrOnlineNluResult(String nluResult) {
+//
+//        }
+//
+//        @Override
+//        public void onAsrFinalResult(String[] results, RecogResult recogResult) {
+//            if (resultStateful != null) {
+//                resultStateful.success(results[0]);
+//            }
+//        }
+//
+//        @Override
+//        public void onAsrFinish(RecogResult recogResult) {
+//
+//        }
+//
+//        @Override
+//        public void onAsrFinishError(int errorCode, int subErrorCode, String descMessage, RecogResult recogResult) {
+//            if (resultStateful != null) {
+//                resultStateful.error(descMessage, null, null);
+//            }
+//        }
+//
+//        @Override
+//        public void onAsrLongFinish() {
+//
+//        }
+//
+//        @Override
+//        public void onAsrVolume(int volumePercent, int volume) {
+//
+//        }
+//
+//        @Override
+//        public void onAsrAudio(byte[] data, int offset, int length) {
+//
+//        }
+//
+//        @Override
+//        public void onAsrExit() {
+//
+//        }
+//
+//        @Override
+//        public void onOfflineLoaded() {
+//
+//        }
+//
+//        @Override
+//        public void onOfflineUnLoaded() {
+//
+//        }
+//    };
 }

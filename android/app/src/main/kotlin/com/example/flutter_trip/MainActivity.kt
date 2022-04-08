@@ -1,7 +1,7 @@
 package com.example.flutter_trip
 
 import android.os.Bundle;
-import com.example.plugin.asr.AsrPlugin
+//import com.example.plugin.asr.AsrPlugin
 
 
 import io.flutter.app.FlutterActivity;
@@ -17,6 +17,6 @@ class MainActivity: FlutterActivity() {
     }
 
     private fun registerSelfPlugin() {
-        AsrPlugin.registerWith(registrarFor("com.example.plugin.asr.AsrPlugin"))
+//        AsrPlugin.registerWith(registrarFor("com.example.plugin.asr.AsrPlugin"))
     }
 }
