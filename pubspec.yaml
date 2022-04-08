@@ -33,6 +33,7 @@ dependencies:
   shared_preferences: 0.5.1+1
   flutter_webview_plugin: 0.3.0+2
   toast: 0.1.5
+  flutter_staggered_grid_view: 0.3.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -54,6 +55,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - mock/home_data.json
+    - mock/travel_data.json
     - images/type_channelgroup.png
     - images/type_channelgs.png
     - images/type_channelplane.png

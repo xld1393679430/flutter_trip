@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_trip/model/travel_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -32,11 +33,16 @@ class TravelDao {
     Params['groupChannelCode'] = pageIndex;
 
     final response = await http.post(url, body: jsonEncode(paramsMap));
-    if (response.statusCode == 200) {
+    // 使用mock数据
+    if (false && response.statusCode == 200) {
       Utf8Decoder utf8Decoder = Utf8Decoder(); // 处理中文乱码
       var result = json.decode(utf8Decoder.convert(response.bodyBytes));
       return TravelItemModel.fromJson(result);
+    } else {
+      String mockPath = 'mock/travel_data.json';
+      String responseString = await rootBundle.loadString(mockPath);
+      var result = await jsonDecode(responseString);
+      return TravelItemModel.fromJson(result);
     }
-    throw Exception('TravelDao error');
   }
 }

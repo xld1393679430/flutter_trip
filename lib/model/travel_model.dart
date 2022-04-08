@@ -265,8 +265,8 @@ class Images {
   int imageId;
   String dynamicUrl;
   String originalUrl;
-  double width;
-  double height;
+  num width;
+  num height;
   int mediaType;
   bool isWaterMarked;
 
