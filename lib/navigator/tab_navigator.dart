@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trip/pages/full_screen_page.dart';
 import 'package:flutter_trip/pages/home_page.dart';
 import 'package:flutter_trip/pages/my_page.dart';
 import 'package:flutter_trip/pages/search_page.dart';
@@ -28,7 +29,8 @@ class _TabNavigatorState extends State<TabNavigator> {
               hideLeft: true,
             ),
             TravelPage(),
-            MyPage()
+            MyPage(),
+            FullScreenPage(),
           ],
           physics: NeverScrollableScrollPhysics(), // 禁止PageView左右滑动
         ),
@@ -46,6 +48,7 @@ class _TabNavigatorState extends State<TabNavigator> {
             _renderNavigationBarItem(Icons.search, "搜素", 1),
             _renderNavigationBarItem(Icons.camera_alt, "旅拍", 2),
             _renderNavigationBarItem(Icons.account_circle, "我的", 3),
+            _renderNavigationBarItem(Icons.fullscreen, "全面屏", 4),
           ],
         ),
       ),
